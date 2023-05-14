@@ -1,0 +1,11 @@
+__global__ void MatMulKernel(float* A, float* B, float* C, int width) {
+    int Row = blockIdx.y * blockDim.y + threadIdx.y;
+    int Col = blockIdx.x * blockDim.x + threadIdx.x;
+    
+    if (Row < width && Col < width) {
+        float sum = 0;
+        for (int i = 0; i < width; ++i)
+            sum += A[Row * width + i] * B[i * width + Col];
+        C[Row * width + Col] = sum;
+    }
+}
